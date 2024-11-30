@@ -18,7 +18,7 @@
             <a href="./ask">ASK</a>
             <a href="./blog" id="blogLink" style="display:none;">BLOGS</a>
             <button id="signInBtn">SIGN IN</button>
-            <button id="logOutBtn" style="display:none;">LOG OUT</button> <!-- Initially hidden -->
+            <button id="logOutBtn" style="display:none;">LOG OUT</button>
         </div>
     </div>
 
@@ -33,9 +33,9 @@
                     <ul>
                         {% for blog in author_blogs %}
                         <li class="blog">
-                            <h3 class="blog-title">{{ blog[0] }}</h3> <!-- Blog Title -->
+                            <h3 class="blog-title">{{ blog[0] }}</h3>
                             <p class="blog-content" style="display:none;">{{ blog[1] }}</p>
-                            <!-- Blog Content, hidden by default -->
+                            <p class="blog-label">Label 1: {{ blog[2] }}, Label 2: {{ blog[3] }}</p>
                         </li>
                         {% endfor %}
                     </ul>
@@ -46,8 +46,8 @@
                 {% endif %}
             </div>
         </div>
-
     </div>
+
     <div id="signInModal" class="modal">
         <div class="modal-content">
             <h2>Sign In</h2>
@@ -63,11 +63,11 @@
     <script>
         document.querySelectorAll('.blog-title').forEach(title => {
             title.addEventListener('click', function () {
-                // Toggle the display of the associated blog content
                 const content = this.nextElementSibling;
                 content.style.display = content.style.display === 'none' ? 'block' : 'none';
             });
         });
+
         const validCredentials = {
             username: "user123",
             password: "pass123"
@@ -79,7 +79,6 @@
         var span = document.getElementsByClassName("close")[0];
         var blogLink = document.getElementById("blogLink");
 
-        // Check login state on page load
         window.onload = function () {
             if (localStorage.getItem('loggedIn') === 'true') {
                 showLoggedInState();
@@ -102,37 +101,35 @@
 
         document.getElementById('signInForm').onsubmit = function (event) {
             event.preventDefault();
-
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
-
             if (username === validCredentials.username && password === validCredentials.password) {
                 alert('Access granted!');
-                localStorage.setItem('loggedIn', 'true'); // Set login state
+                localStorage.setItem('loggedIn', 'true');
                 showLoggedInState();
                 modal.style.display = 'none';
             } else {
                 alert('Invalid credentials!');
-                blogLink.style.display = 'none'; // Hide blog link
+                blogLink.style.display = 'none';
             }
         }
 
         logOutBtn.onclick = function () {
             alert('Logged out successfully!');
-            localStorage.setItem('loggedIn', 'false'); // Clear login state
+            localStorage.setItem('loggedIn', 'false');
             showLoggedOutState();
         }
 
         function showLoggedInState() {
-            blogLink.style.display = 'inline'; // Show blog link
-            signInBtn.style.display = 'none'; // Hide sign-in button
-            logOutBtn.style.display = 'inline'; // Show log-out button
+            blogLink.style.display = 'inline';
+            signInBtn.style.display = 'none';
+            logOutBtn.style.display = 'inline';
         }
 
         function showLoggedOutState() {
-            blogLink.style.display = 'none'; // Hide blog link
-            signInBtn.style.display = 'inline'; // Show sign-in button
-            logOutBtn.style.display = 'none'; // Hide log-out button
+            blogLink.style.display = 'none';
+            signInBtn.style.display = 'inline';
+            logOutBtn.style.display = 'none';
         }
     </script>
 </body>
